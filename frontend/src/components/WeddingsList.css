@@ -1,0 +1,31 @@
+.card{
+    height: 350px;
+    width: 300px;
+    background-color: rgba(170, 115, 222, 0.586);
+    margin: 10px;
+
+    border-radius: 10px;
+}
+
+.card-img{
+    display: grid;
+    height: 280px;
+    width: 300px;
+    align-content: end;
+
+    background-image: url("../images/media_v1_6307091162595328_medium.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    padding: 10px;
+
+    color: aliceblue;
+    font-size: x-large;
+    font-weight: 700;
+
+}
+
+
+.card-details{
+    padding: 10px;
+}

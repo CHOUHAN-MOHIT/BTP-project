@@ -1,0 +1,21 @@
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    background-color: red;
+}
+
+.brand , .menu , .sec-menu{
+    display: flex;
+    justify-content: space-between;
+}
+.brand-name{
+    font-size: large;
+    font-weight: 600;
+    display: grid;
+    align-content: center;
+}
+.menu-items{
+    margin: 10px;;
+}
