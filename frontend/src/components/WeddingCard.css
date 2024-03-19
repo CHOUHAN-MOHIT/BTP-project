@@ -1,0 +1,30 @@
+.wedding-card{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    background-color: #e09f3e71;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.17);
+
+}
+.wedding-card:hover{
+    background-color: #e09f3eb5;
+    box-shadow: 10px 10px 20px 0px rgb(0 0 0 / 40%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.couple-img{
+    display: grid;
+    align-content: end;
+    padding: 10px;
+
+    width: 300px;
+    height: 400px;
+    /* background-image: url('../assets/images/media_v1_6307091162595328_medium.jpeg'); */
+    background-size: cover;
+    border-radius: 16px 16px 0 0 ;
+}
+.wedding-details{
+    padding: 10px;
+}
