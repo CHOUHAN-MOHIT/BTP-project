@@ -1,55 +1,50 @@
+import React , {useState} from 'react'
+import { Link } from 'react-router-dom'
 import './Navbar.css'
-import React from 'react'
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { UserDetails } from '../Context/UserContext'
+import Logo from '../assets/logos/logo-placeholder-image.png'
 
+const Navbar = () => {
+  const {auth ,setAuth} = UserDetails();
 
-
-function Navbar() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') ;
-  const handleLogout = async (event) => {
-    event.preventDefault();
-    const csrf_token = Cookies.get('csrfToken');
-    console.log("handle logout:",csrf_token);
-      try {
-          
-        const response = await axios.post('http://127.0.0.1:8000/apis/logout/', {
-          headers: {
-            'X-CSRF-TOKEN': csrf_token
-          }
-        });
-  
-        console.log(response.data); 
-        localStorage.removeItem("isAtuhenticated");
-
-      } catch (error) {
-        console.error(error);        
-      }
-    };
+  const handleLogout = async () => {
+    await fetch('http://localhost:8000/apis/logout', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+    });
+    setAuth(null);
+  }
 
   return (
     <nav className='nav-container'>
-      {/* logo */}
       <div className='brand'>
-          <img src="/" alt="/" />
-          <div className='brand-name'><Link to="/">Brand Name</Link></div>
+        <img src={Logo}  height="50px" className='logo'/>
+        <div className='name'>BRANDNAME</div>
         </div>
-      {/* Menu */}
       <div className='menu'>
-        <div className='menu-items'><Link to="/about">About Us</Link></div>
-        <div className='menu-items'> <Link to="/weddings">Weddings</Link></div>
-        <div className='menu-items'><Link to="/contact">Contact Us</Link></div>
+        <Link to='/' className='nav-item'>Home</Link>
+        <Link to='/weddings' className='nav-item'>Weddings</Link>
+        <Link to='/about-us' className='nav-item'>About Us</Link>
+        <Link to='/contact-us' className='nav-item'>Contact Us</Link>
       </div>
-      {/* login */}
-      <div className='sec-menu'>
-        <div className='menu-items'><Link to="/register">Register</Link></div>
-        <div className='menu-items'><Link to="/login">Login</Link></div>
-        <div className='menu-items'><button onClick={handleLogout}>Logout</button></div>
-        
+      <div className='auth-menu'>
+      {
+        auth ?<>
+        <Link to='/register-wedding' className='nav-btn-inv'>Be a Host</Link>
+        <Link to='/login' className='nav-btn'  onClick={handleLogout}>Logout</Link>
+        </>
+        :
+        <>
+        <Link to='/register' className='nav-btn'>Register</Link>
+        <Link to='/login' className='nav-btn'>Login</Link>
+        </>
+      }
+      
+      
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

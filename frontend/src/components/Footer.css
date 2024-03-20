@@ -1,15 +1,12 @@
-.footer-container{
-    background-color: black;
-    min-height: 50px;
+footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color:#540B0E;
+    color: #E09F3E;
+    padding: 20px;
 }
 
-.banner-image{
-    background-color: bisque;
-    width: 100%;
-    height: 80vh;
-}
-
-.tag-line{
-    position: relative;
-    
+.socials-link{
+    margin: 0 10px;
 }

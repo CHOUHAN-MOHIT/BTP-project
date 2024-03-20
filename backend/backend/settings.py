@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,11 @@ SECRET_KEY = 'django-insecure-^-thbm0z*l_j*j-wq3@otn-$dtn*$g94w!g6+fp&0q-d@s59@b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',  # Optional for localhost access
+    'http://localhost:3000',  # Add your frontend's development URL
+]
 
 
 # Application definition
@@ -132,10 +137,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-AUTH_USER_MODEL = 'apis.User'
-
-
 REST_FRAMEWORK = {
     # Enable Session Authentication for App
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -148,3 +149,13 @@ REST_FRAMEWORK = {
     # Disable Browsable API and Render JSON
     # 'DEFAULT_RENDERER_CLASSES':('rest_framework.renderers.JSONRenderer',),
 }
+
+AUTH_USER_MODEL = 'apis.User'
+
+# corsheaders
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+# medial pahts
+MEDIA_ROOT = 'media'  # Adjust path as needed
+MEDIA_URL = 'media/'

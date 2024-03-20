@@ -1,0 +1,73 @@
+.form-container{
+    position: absolute;
+    display: grid;
+    place-content: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background-image: url('../assets/images/background-login.jpg');
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+.register-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 25vw;
+    height: 50vh;
+    border-radius: 10px;
+    padding: 10px;
+    background-image:linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 10px rgba(30,30,30,0.5);
+}
+.register-form{
+    display: flex;
+    flex-direction: column;
+}
+.text-center{
+    text-align: center;
+}
+.form-control{
+    margin: 10px 10px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #FFF3B0;
+}
+.register-btn{
+    margin: 5px 10px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #9E2A2B;
+    color: #FFF3B0;
+}
+.social-register{
+    display: flex;
+    justify-content: space-around;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .separator::before,
+  .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+  }
+  
+  .separator:not(:empty)::before {
+    margin-right: .5em;
+  }
+  
+  .separator:not(:empty)::after {
+    margin-left: .5em;
+  }
