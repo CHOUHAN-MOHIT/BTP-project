@@ -29,7 +29,7 @@ function App() {
           <Route path='/register' Component={Register}></Route>
           <Route path='/register-wedding' Component={WeddingRegister}></Route>
           <Route path='/weddings' Component={WeddingList}></Route>
-          <Route path='/wedding-detail' Component={WeddingDetail}></Route>
+          <Route path='/wedding/:id' Component={WeddingDetail}></Route>
         </Routes>
       <Footer/>
         </UserProvider>
