@@ -1,4 +1,5 @@
 import React , {useState} from 'react'
+import './WeddingRegister.css'
 
 const WeddingRegister = () => {
     const [brideName , setBrideName] = useState('');
@@ -37,46 +38,56 @@ const WeddingRegister = () => {
       const content = await response.json();
     }
     return (
-    <div className='form-container'>
-        <form className='login-form' onSubmit={handleLogin}>
-            <input type="email" name='brideEmail' placeholder='BrideEmail'
-                onChange={e => setBriderEmail(e.target.value)}
-            />
-            <input type="text" name='brideName' placeholder='brideName' 
-                onChange={e => setBrideName(e.target.value)}
-            />
-            <input type="text" name='bridePhone' placeholder='bridePhone' 
-                onChange={e => setBridePhone(e.target.value)}
-            />
-            <input type="email" name='groomEmail' placeholder='GroomEmail'
-                onChange={e => setGroomEmail(e.target.value)}
-            />
-            <input type="text" name='GroomName' placeholder='GroomName'
-                onChange={e => setGroomname(e.target.value)}
-            />
-            <input type="text" name='GroomPhone' placeholder='GroomPhone' 
-                onChange={e => setGroomPhone(e.target.value)}
-            />
-            <input type="text" name='city' placeholder='city'
-                onChange={e => setCity(e.target.value)}
-            />
-            <input type="text" name='address' placeholder='address' 
+    <div className='reg-form-container'>
+        <form className='wed-reg-form' onSubmit={handleLogin}>
+        <h3 className='form-heading'>Register Your Wedding</h3>
+            <div className='personal-details'>
+                <input type="text" name='brideName' className='form-control' placeholder='BrideName' 
+                    onChange={e => setBrideName(e.target.value)}
+                />
+                <input type="email" name='brideEmail' className='form-control' placeholder='BrideEmail'
+                    onChange={e => setBriderEmail(e.target.value)}
+                />
+                <input type="text" name='bridePhone' className='form-control' placeholder='BridePhone' 
+                    onChange={e => setBridePhone(e.target.value)}
+                />
+            </div>
+            <div className='personal-details'>
+                <input type="email" name='groomEmail' className='form-control' placeholder='GroomEmail'
+                    onChange={e => setGroomEmail(e.target.value)}
+                />
+                <input type="text" name='GroomName' className='form-control' placeholder='GroomName'
+                    onChange={e => setGroomname(e.target.value)}
+                />
+                <input type="text" name='GroomPhone' className='form-control' placeholder='GroomPhone' 
+                    onChange={e => setGroomPhone(e.target.value)}
+                />
+            </div>
+            <input type="text" name='address' className='form-control' placeholder='Address' 
                 onChange={e => sedAddress(e.target.value)}
             />
-            <input type="text" name='state' placeholder='state'
-                onChange={e => setState(e.target.value)}
-            />
-            <input type="text" name='weddingDate' placeholder='weddingDate' 
-                onChange={e => setWeddingDate(e.target.value)}
-            />
-            <input type="file" name='invitations-card' id='invi-img'
-                onChange={e => {
-                    const imgE = e.target;
-                    setInvitationCard(imgE.files[0]);
-                }
-                }
-            />
-            <button className='btn'>Login</button>
+            <div>
+                <input type="text" name='city' className='form-control' placeholder='City'
+                    onChange={e => setCity(e.target.value)}
+                />
+                <input type="text" name='state' className='form-control' placeholder='State'
+                    onChange={e => setState(e.target.value)}
+                />
+                <input type="text" name='pincode' className='form-control' placeholder='Pincode' />
+            </div>
+            <div className='d-flex'>
+                <input type="file" name='invitations-card' className='form-control'
+                    onChange={e => {
+                        const imgE = e.target;
+                        setInvitationCard(imgE.files[0]);
+                    }
+                    }
+                />
+                <input type="date" name='weddingDate' className='form-control' 
+                    onChange={e => setWeddingDate(e.target.value)}
+                />
+            </div>
+            <button className='register-btn'>Register</button>
         </form>
     </div>
     )

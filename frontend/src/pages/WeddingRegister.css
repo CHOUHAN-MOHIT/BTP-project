@@ -1,0 +1,33 @@
+.reg-form-container{
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    background-image: url('../assets/images/background-login.jpg');
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+.wed-reg-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    padding: 10px;
+    background-image:linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 10px rgba(30,30,30,0.5);
+
+}
+.form-heading{
+    text-align: center;
+    color: #540B0E;
+    font-size: x-large;
+}
+.d-flex{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.personal-details{
+    display: flex;
+    flex-direction: column;
+}
