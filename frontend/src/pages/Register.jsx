@@ -19,7 +19,6 @@ const Register = () => {
         });
 
         const content = await response.json();
-        console.log(content);
     }
   return (
     <div className='form-container'>

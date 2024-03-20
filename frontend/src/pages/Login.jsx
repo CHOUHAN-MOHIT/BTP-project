@@ -23,7 +23,6 @@ const Login = () => {
       const content = await response.json();
       //assuming valid log in
       setAuth(true);
-      console.log(content.data);
     }
     useEffect(()=>{
         if(auth){

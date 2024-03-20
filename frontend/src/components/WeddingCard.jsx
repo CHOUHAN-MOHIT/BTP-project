@@ -6,7 +6,6 @@ const Weddingcard = ({wedding}) => {
   const styles = {
     backgroundImage: `url(${imageUrl})`,
   };
-  console.log(wedding);
   return (
     <div className='wedding-card'>
         <div className='couple-img' style={styles}>{wedding.bride_name} & {wedding.groom_name}</div>
