@@ -2,6 +2,7 @@ import React , {useState} from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
 import { UserDetails } from '../Context/UserContext'
+import Logo from '../assets/logos/logo-placeholder-image.png'
 
 const Navbar = () => {
   const {auth ,setAuth} = UserDetails();
@@ -16,13 +17,16 @@ const Navbar = () => {
   }
 
   return (
-    <div className='nav-container'>
-      <div className='brand'>BRANDNAME</div>
+    <nav className='nav-container'>
+      <div className='brand'>
+        <img src={Logo}  height="50px" className='logo'/>
+        <div className='name'>BRANDNAME</div>
+        </div>
       <div className='menu'>
         <Link to='/' className='nav-item'>Home</Link>
         <Link to='/weddings' className='nav-item'>Weddings</Link>
-        <span className='nav-item'>About Us</span>
-        <span className='nav-item'>Contact Us</span>
+        <Link to='/about-us' className='nav-item'>About Us</Link>
+        <Link to='/contact-us' className='nav-item'>Contact Us</Link>
       </div>
       <div className='auth-menu'>
       {
@@ -39,7 +43,7 @@ const Navbar = () => {
       
       
       </div>
-    </div>
+    </nav>
   )
 }
 

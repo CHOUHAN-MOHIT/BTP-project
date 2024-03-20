@@ -1,3 +1,5 @@
 backend/env
 *.pyc
 backend/db.sqlite3
+backend/media/*
+start.txt

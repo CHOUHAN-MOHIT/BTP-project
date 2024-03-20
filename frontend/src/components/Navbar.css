@@ -1,24 +1,39 @@
-.nav-container{
+nav{
     display: flex;
     justify-content: space-between;
+    align-items:center;
     background-color: #540B0E;
     padding: 10px;
 }
 
 .brand{
+    display: flex;
     color: #E09F3E;
+    align-items:center;
+}
+
+.brand .logo{
+    margin: 0px 5px;
+}
+.brand .name{
+    margin: 0px 5px;
+    font-size:x-large;
+    font-weight: 700;
 }
 .nav-item{
     text-decoration: none;
+    font-size:medium;
+    font-weight: 600;
     color: #E09F3E;
     padding: 10px;
 }
 
 .nav-btn{
-    padding: 5px 10px;
+    padding: 10px 15px;
     margin: 5px;
     text-decoration: none;
     color: #540B0E;
+    font-size: large;
     background-color: #E09F3E;
 
     border-radius: 5px;
@@ -32,3 +47,4 @@
     border: 2px solid #E09F3E;
     border-radius: 5px;
 }
+
