@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
 import { UserDetails } from '../Context/UserContext'
@@ -7,6 +7,11 @@ import Logo from '../assets/logos/logo-placeholder-image.png'
 const Navbar = () => {
   const {auth ,setAuth} = UserDetails();
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    const isAuth = storedAuth === 'true'; // Check for exact value "true"
+    setAuth(isAuth);
+  }, []);
   const handleLogout = async () => {
     await fetch('http://localhost:8000/apis/logout', {
         method: 'POST',
@@ -14,6 +19,7 @@ const Navbar = () => {
         credentials: 'include',
     });
     setAuth(null);
+    localStorage.removeItem('isAuthenticated');
   }
 
   return (

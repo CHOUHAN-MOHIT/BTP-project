@@ -10,20 +10,32 @@ const Login = () => {
     const navigate= useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8000/apis/login' , {
+      
+        try {
+          const response = await fetch('http://localhost:8000/apis/login', {
             method: 'POST',
-            headers : {'Content-Type': 'application/json'},
-            credentials:'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
             body: JSON.stringify({
-                email,
-                password
-          })
-      });
-
-      const content = await response.json();
-      //assuming valid log in
-      setAuth(true);
-    }
+              email,
+              password,
+            }),
+          });
+      
+          if (!response.ok) {
+            // Handle non-2xx response (e.g., 401 Unauthorized)
+            throw new Error(`Login failed with status: ${response.status}`);
+          }
+          // Assuming valid login
+          setAuth(true);
+          localStorage.setItem('isAuthenticated', true);
+        } catch (error) {
+          console.error('Error logging in:', error);
+        }
+      };
+      
     useEffect(()=>{
         if(auth){
             navigate("/weddings");
