@@ -1,6 +1,7 @@
 .reg-form-container{
     display: grid;
     place-content: center;
+    /* grid-template-columns: auto auto; */
     height: 100vh;
     background-image: url('../assets/images/background-login.jpg');
     background-size:cover;
@@ -27,7 +28,18 @@
     grid-template-columns: auto auto;
     align-items: center;
 }
-.personal-details{
+.couple-details{
+    display: flex;
+    flex-direction: row;
+}
+.couple-details div{
+    width: 100%;
     display: flex;
     flex-direction: column;
+}
+.btn-grp{
+    display: flex;
+}
+.btn-grp button{
+    width: 100%;
 }
