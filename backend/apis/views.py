@@ -4,7 +4,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
 from .serializers import UserSerializer  , WeddingSerializer
 from .models import User , Wedding
-import jwt , datetime
+import jwt , datetime , json
 
 # Create your views here.
 class RegisterView(APIView):
@@ -86,9 +86,23 @@ class WeddingListCreateView(APIView):
             payload = jwt.decode(token , 'secret' , algorithms='HS256')
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Invailid Token")
-        print(request.data)
-        serializer = WeddingSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        event_details_json = request.POST.get('eventDetails') 
+        print(event_details_json)
+        # event_details_json = request.data.get('eventDetails')  # Extract event details
+
+        # serializer = WeddingSerializer(data=request.data)
+        # if serializer.is_valid():
+        # # Access event details from request data
+        #     event_details = json.loads(event_details_json)  # Convert JSON string to list of dictionaries
+
+        #     # Preprocess event details (optional)
+
+        #     # No need to create Event objects (since storing as JSON string)
+
+        #     # Convert event details back to JSON string
+        #     serializer.validated_data['events'] = json.dumps(event_details)  # Convert back to JSON string
+
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response( status=status.HTTP_200_OK)
