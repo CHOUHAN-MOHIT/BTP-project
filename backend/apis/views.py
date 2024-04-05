@@ -2,9 +2,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
-from .serializers import UserSerializer  , WeddingSerializer
+from .serializers import UserSerializer  , WeddingFullSerializer , WeddingShortSerializer
 from .models import User , Wedding
 import jwt , datetime , json
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 class RegisterView(APIView):
@@ -69,10 +70,17 @@ class LogoutView(APIView):
         return response
 
 class WeddingListCreateView(APIView):
-    def get(self, request):
-        """ Get a list of all weddings """
+    def get(self, request, wedding_id=None):
+        """ Get a list of all weddings or a single wedding by ID """
+        if wedding_id is not None:
+            # Retrieve a single wedding by ID
+            wedding = get_object_or_404(Wedding, id=wedding_id)
+            serializer = WeddingFullSerializer(wedding)
+            return Response(serializer.data)
+        
+        # Retrieve a list of all weddings
         weddings = Wedding.objects.all()
-        serializer = WeddingSerializer(weddings, many=True)
+        serializer = WeddingShortSerializer(weddings, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -86,23 +94,10 @@ class WeddingListCreateView(APIView):
             payload = jwt.decode(token , 'secret' , algorithms='HS256')
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Invailid Token")
-        event_details_json = request.POST.get('eventDetails') 
-        print(event_details_json)
-        # event_details_json = request.data.get('eventDetails')  # Extract event details
 
-        # serializer = WeddingSerializer(data=request.data)
-        # if serializer.is_valid():
-        # # Access event details from request data
-        #     event_details = json.loads(event_details_json)  # Convert JSON string to list of dictionaries
+        serializer = WeddingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        #     # Preprocess event details (optional)
-
-        #     # No need to create Event objects (since storing as JSON string)
-
-        #     # Convert event details back to JSON string
-        #     serializer.validated_data['events'] = json.dumps(event_details)  # Convert back to JSON string
-
-        #     serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response( status=status.HTTP_200_OK)

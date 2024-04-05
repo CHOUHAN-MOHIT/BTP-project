@@ -1,9 +1,8 @@
-import React , {useState} from 'react'
-import './WeddingRegister.css'
-import EventDetail from '../components/EventDetails';
+import React, { useState } from 'react';
+import './WeddingRegister.css';
 
 const WeddingRegister = () => {
-    //data variables
+    // Data variables
     const [formData, setFormData] = useState({
         brideName: '',
         brideEmail: '',
@@ -14,167 +13,192 @@ const WeddingRegister = () => {
         city: '',
         address: '',
         state: '',
-        weddingDate: '',
+        weddingDate: null,
         invitationCard: null,
-      });
-    const [eventDetails, setEventDetails] = useState({
-        eventName: '',
-        eventDate: '',
-        eventDesc: '',
-      });
-    const [formStep , setFormStep] = useState(0);
-    //sub-components
-    const eventDetailSection = () => {
-        return (
-        <div>
-            <input type="text" name='eventName' className='form-control' placeholder='Address' 
-                onChange={(e) => {
-                    setEventDetails({
-                      ...eventDetails,
-                      [e.target.name]: e.target.value ? e.target.value : '',
-                    });
-                  }}
-            />  
-            <input type="date" name='eventDate' className='form-control' placeholder='City'
-                onChange={(e) => {
-                    setEventDetails({
-                      ...eventDetails,
-                      [e.target.name]: e.target.value ? e.target.value : '',
-                    });
-                  }}
-            />
-            <input type="text" name='eventDesc' className='form-control' placeholder='State'
-                onChange={(e) => {
-                    setEventDetails({
-                      ...eventDetails,
-                      [e.target.name]: e.target.value ? e.target.value : '',
-                    });
-                  }}
-            />
-        </div>)
-    }
-    //funtions
+        events: [],
+    });
+    const [formStep, setFormStep] = useState(0);
+
+    // Functions
     const handleFormNav = (step) => {
-        if(formStep + step >= 0)
-            setFormStep(formStep+step);
-    }
+        if (formStep + step >= 0 && formStep + step <= 3) {
+            setFormStep(formStep + step);
+        }
+    };
+
     const renderBtn = () => {
-        if(formStep < 3)
+        if (formStep < 3) {
             return (
                 <div className='btn-grp'>
                     <button type='button' onClick={() => handleFormNav(-1)} className='register-btn'>Prev</button>
                     <button type='button' onClick={() => handleFormNav(1)} className='register-btn'>Next</button>
                 </div>
             );
-        else
+        } else {
             return (
                 <div className='btn-grp'>
-                <button type='button' onClick={() => handleFormNav(-1)} className='register-btn'>Prev</button>
-                <button type='submit' onClick={handleWeddingRegistration} className='register-btn'>Register</button>
+                    <button type='button' onClick={() => handleFormNav(-1)} className='register-btn'>Prev</button>
+                    <button type='submit' onClick={handleWeddingRegistration} className='register-btn'>Register</button>
                 </div>
             );
-    }
-    const handleWeddingRegistration = async () => {
-        const _formData = new FormData();
-        _formData.append('bride_name', formData.brideName);
-        _formData.append('bride_email' , formData.brideEmail);
-        _formData.append('bride_phone' ,formData.bridePhone);
-        _formData.append('groom_phone' , formData.groomPhone);
-        _formData.append('groom_email' , formData.groomEmail);
-        _formData.append('groom_name' , formData.groomName);
-        _formData.append('address' , formData.address);
-        _formData.append('city' , formData.city);
-        _formData.append('state' , formData.state);
-        _formData.append('wedding_date' , formData.weddingDate);
-        _formData.append('registration_date' , "2020-05-12");
-        _formData.append('invitation_card' , formData.invitationCard);
-        _formData.append('eventDetails', JSON.stringify(eventDetails)); // Convert eventDetails to JSON
-        console.log(eventDetails);
+        }
+    };
 
-        const response = await fetch('http://localhost:8000/apis/weddings/', {
-          method: 'POST',
-          credentials: 'include',
-          body: _formData,
-        });
-      
-        // const content = await response.json();
-        setFormStep(0);
-      };
+    const addEventSection = () => {
+        setFormData(prevData => ({
+            ...prevData,
+            events: [...prevData.events, { name: '', date: null, time: null, location: '', description: '' }],
+        }));
+    };
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        const [fieldName, fieldIndex] = name.split('-');
+
+        if (fieldIndex !== undefined) {
+            const eventIndex = parseInt(fieldIndex, 10);
+            setFormData(prevData => ({
+                ...prevData,
+                events: prevData.events.map((event, index) =>
+                    index === eventIndex ? { ...event, [fieldName]: value } : event
+                ),
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
+    };
+
+    const handleWeddingRegistration = async () => {
+        try {
+            const _formData = new FormData();
+    
+            // Convert events array to JSON string before appending to FormData
+            const eventsJson = JSON.stringify(formData.events);
+    
+            _formData.append('bride_name', formData.brideName);
+            _formData.append('bride_email', formData.brideEmail);
+            _formData.append('bride_phone', formData.bridePhone);
+            _formData.append('groom_name', formData.groomName);
+            _formData.append('groom_email', formData.groomEmail);
+            _formData.append('groom_phone', formData.groomPhone);
+            _formData.append('address', formData.address);
+            _formData.append('city', formData.city);
+            _formData.append('state', formData.state);
+            _formData.append('wedding_date', formData.weddingDate);
+            _formData.append('events', eventsJson);
+            _formData.append('invitation_card', formData.invitationCard);  // Append the file
+    
+            const response = await fetch('http://localhost:8000/apis/weddings/', {
+                method: 'POST',
+                credentials: 'include',
+                body: _formData,
+            });
+    
+            // Handle response
+            if (response.ok) {
+                setFormStep(0);
+                console.log('Wedding registered successfully');
+            } else {
+                // Handle error
+                console.error('Failed to register wedding:', await response.text());
+            }
+        } catch (error) {
+            console.error('Error registering wedding:', error);
+        }
+    };
+    
+    
+    
+    
+    
 
     return (
-    <div className='reg-form-container'>
-        <form className='wed-reg-form' onSubmit={(event) => event.preventDefault()} >
-            <h3 className='form-heading'>Register Your Wedding</h3>
-            { formStep === 0 && (<section className='couple-details'>
-                <h4 className='form-heading'>Bride Groom Details</h4>
-                <div  >
-                    <input type="text" name='brideName' className='form-control' placeholder='BrideName' 
-                        onChange={e => setFormData({ ...formData, brideName: e.target.value })}
-                    />
-                    <input type="email" name='brideEmail' className='form-control' placeholder='BrideEmail'
-                        onChange={e => setFormData({ ...formData, brideEmail: e.target.value })}
-                    />
-                    <input type="text" name='bridePhone' className='form-control' placeholder='BridePhone' 
-                        onChange={e => setFormData({ ...formData, bridePhone: e.target.value })}
-                    />
-                </div>
-                <div >
-                    <input type="text" name='GroomName' className='form-control' placeholder='GroomName'
-                        onChange={e => setFormData({ ...formData, groomName: e.target.value })}
-                    />
-                    <input type="email" name='groomEmail' className='form-control' placeholder='GroomEmail'
-                        onChange={e => setFormData({ ...formData, groomEmail: e.target.value })}
-                    />
-                    <input type="text" name='GroomPhone' className='form-control' placeholder='GroomPhone' 
-                        onChange={e => setFormData({ ...formData, groomPhone: e.target.value })}
-                    />
-                </div>
-            </section>)}
-            {formStep === 1 && (<section>
-                <h4 className='form-heading'>Wedding Location</h4>
-                <input type="text" name='address' className='form-control' placeholder='Address' 
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
-                />
-                <input type="text" name='city' className='form-control' placeholder='City'
-                    onChange={e => setFormData({ ...formData, city: e.target.value })}
-                />
-                <input type="text" name='state' className='form-control' placeholder='State'
-                    onChange={e => setFormData({ ...formData, state: e.target.value })}
-                />
-                <input type="text" name='pincode' className='form-control' placeholder='Pincode' />
-            </section>)}
-            {formStep === 2 && (
-                <section>
-                    <h4 className="form-heading">Events details</h4>
-                    {eventDetailSection()}
-                    {/* {() => eventDetailSection()} */}
-                </section>
+        <div className='reg-form-container'>
+            <form className='wed-reg-form' onSubmit={(event) => event.preventDefault()}>
+                <h3 className='form-heading'>Register Your Wedding</h3>
+                
+                {/* Couple details section */}
+                {formStep === 0 && (
+                    <>
+                    <h5 className='text-center'>Bride Groom Details</h5>
+                    <section className='couple-details'>
+                        <div>
+                        <input type="text" name='brideName' className='form-control' placeholder='BrideName'
+                            value={formData.brideName} onChange={handleChange} />
+                        <input type="email" name='brideEmail' className='form-control' placeholder='BrideEmail'
+                            value={formData.brideEmail} onChange={handleChange} />
+                        <input type="text" name='bridePhone' className='form-control' placeholder='BridePhone'
+                            value={formData.bridePhone} onChange={handleChange} />
+                        </div>
+                        <div>
+                        <input type="text" name='groomName' className='form-control' placeholder='GroomName'
+                            value={formData.groomName} onChange={handleChange} />
+                        <input type="email" name='groomEmail' className='form-control' placeholder='GroomEmail'
+                            value={formData.groomEmail} onChange={handleChange} />
+                        <input type="text" name='groomPhone' className='form-control' placeholder='GroomPhone'
+                            value={formData.groomPhone} onChange={handleChange} />
+                        </div>
+                    </section>
+                    </>
                 )}
-            {formStep === 3 && (<section className='d-flex'>
-                <h4 className='form-heading'>Additional Info</h4>
-                <input type="file" name='invitations-card' className='form-control'
-                    onChange={e => {
-                        const imgE = e.target;
-                        setFormData({ ...formData, invitationCard: imgE.files[0] });
-                    }
-                    }
-                />
-                <input type="date" name='weddingDate' className='form-control' 
-                    onChange={e => setFormData({ ...formData, weddingDate: e.target.value })}
-                />
-            </section>)}    
+                
+                {/* Geographic details */}
+                {formStep === 1 && (
+                    <>
+                    <h5 className='text-center'>Wedding Location</h5>
+                    <section>
+                        <input type="text" name='address' className='form-control' placeholder='Address'
+                            value={formData.address} onChange={handleChange} />
+                        <input type="text" name='city' className='form-control' placeholder='City'
+                            value={formData.city} onChange={handleChange} />
+                        <input type="text" name='state' className='form-control' placeholder='State'
+                            value={formData.state} onChange={handleChange} />
+                    </section>
+                    </>
+                )}
+                
+                {/* Event details */}
+                {formStep === 2 && (
+                    <>
+                    <h4 className="text-center">Events details</h4>
+                    <section>
+                        {formData.events.map((event, index) => (
+                            <div key={index}>
+                                <input type="text" name={`name-${index}`} className='form-control' placeholder='Event Name'
+                                    value={event.name} onChange={handleChange} />
+                                <input type="date" name={`date-${index}`} className='form-control' placeholder='Event Date'
+                                    value={event.date || ''} onChange={handleChange} />
+                                <input type="text" name={`location-${index}`} className='form-control' placeholder='Event Location'
+                                    value={event.location} onChange={handleChange} />
+                                <input type="text" name={`description-${index}`} className='form-control' placeholder='Event Description'
+                                    value={event.description} onChange={handleChange} />
+                            </div>
+                        ))}
+                        <button type='button' onClick={addEventSection} className='register-btn'><span style={{fontWeight:"800",fontSize:"large"}}> + </span>Add event</button>
+                    </section>
+                    </>
+                )}
+                
+                {/* Additional Info */}
+                {formStep === 3 && (
+                    <>
+                    <h4 className='text-center'>Additional Info</h4>
+                    <section className='d-flex'>
+                        <input type="file" name='invitationCard' className='form-control'
+                            onChange={(e) => setFormData({ ...formData, invitationCard: e.target.files[0] })} />
+                        <input type="date" name='weddingDate' className='form-control'
+                            value={formData.weddingDate || ''} onChange={handleChange} />
+                    </section>
+                    </>
+                )}
 
-            {renderBtn()}
-            <section className='wed-reg-form' style={{display: "none"}}>
-                <h3 className='text-center'>Event </h3>
-                <input type="text" className='form-control' placeholder='Event name'/>
-                <input type="text" className='form-control'placeholder='Event date'/>
-                <input type="text" className='form-control'placeholder='Event description'/>
-                <input type="text" className='form-control'placeholder='Dress code'/>
-            </section>
-        </form>
-    </div>
-    )
-}
+                {renderBtn()}
+            </form>
+        </div>
+    );
+};
 
-export default WeddingRegister
+export default WeddingRegister;

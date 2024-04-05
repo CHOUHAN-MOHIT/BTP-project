@@ -1,11 +1,14 @@
 from rest_framework import serializers
 from .models import Wedding , User
 
-class WeddingSerializer(serializers.ModelSerializer):
+class WeddingFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wedding
         fields = '__all__'
-
+class WeddingShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wedding
+        fields = ['id' ,'bride_name' , 'groom_name' , 'city' , 'state' , 'wedding_date' , 'invitation_card']
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
