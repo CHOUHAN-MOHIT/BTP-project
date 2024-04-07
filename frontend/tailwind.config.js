@@ -8,12 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#F7BD33', // Saffron yellow
-        secondary: '#E03997', // Magenta pink
-        tertiary: '#4D79A8', // Teal blue
-        accent: '#FFFFFF', // White
-
-      },
+        base: '#F5EBE0',
+        highlight: '#E3D5CA',
+        shade: '#D5BDAF',
+        mutedAccent: '#D6CCC2',
+        neutralAccent: '#EDEDE9'
+    },
     },
   },
   plugins: [],

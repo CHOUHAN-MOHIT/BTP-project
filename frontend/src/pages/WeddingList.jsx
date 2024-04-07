@@ -22,10 +22,10 @@ const WeddingList = ()  => {
     fetchWeddings();
   }, []);
   return (
-    <div className='text-center' >
+    <div className='text-center pt-16' >
       <h1>Wedding List</h1>
       {weddings.length > 0 ? (
-        <div className='list-container'>
+        <div className='grid grid-cols-4 mx-32 gap-4'>
           {weddings.map((wedding) => (
             <Weddingcard key={wedding.id} wedding={wedding}/>
           ))}

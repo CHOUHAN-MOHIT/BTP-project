@@ -1,9 +1,7 @@
-.reg-form-container{
+/* .reg-form-container{
     display: grid;
     place-content: center;
-    /* grid-template-columns: auto auto; */
     height: 100vh;
-    background-image: url('../assets/images/background-login.jpg');
     background-size:cover;
     background-repeat: no-repeat;
 }
@@ -42,4 +40,4 @@
 }
 .btn-grp button{
     width: 100%;
-}
+} */

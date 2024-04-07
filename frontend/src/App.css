@@ -5,7 +5,11 @@
 }
 
 body{
-  background-color: #E09F3E;
+  background-color: #F5EBE0;
+}
+
+.btn{
+  @apply m-1 content-center px-4 rounded border border-black ;
 }
 
 /* scrollbar */

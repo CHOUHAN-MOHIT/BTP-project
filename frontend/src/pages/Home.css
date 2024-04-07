@@ -1,0 +1,4 @@
+.banner{
+    @apply w-full h-screen bg-no-repeat bg-cover;
+    background-image: url("../assets/images/banner-img.jpeg");
+}
