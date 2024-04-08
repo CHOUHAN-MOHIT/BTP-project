@@ -5,7 +5,7 @@ import { UserDetails } from '../Context/UserContext';
 import Logo from '../assets/logos/logo-placeholder-image.png';
 import AuthModal from './AuthModal';
 
-const Navbar = () => {
+const Navbar = ({activeTab}) => {
   const { auth, setAuth } = UserDetails();
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
@@ -43,11 +43,11 @@ const Navbar = () => {
           <img src={Logo} className='w-12 h-12'/>
           <div className='text-lg content-center mx-3 font-bold'>BRANDNAME</div>
         </div>
-        <div className='flex'>
-          <Link to='/' className='p-3'>Home</Link>
-          <Link to='/weddings' className='p-3'>Weddings</Link>
-          <Link to='/about-us' className='p-3'>About Us</Link>
-          <Link to='/contact-us' className='p-3'>Contact Us</Link>
+        <div className='flex font-semibold'>
+          <Link to='/' className={`px-1 py-1 m-2 ${activeTab === 'Home' ? 'border-b-2 border-black' : ''}`}>Home</Link>
+          <Link to='/weddings' className={`px-1 py-1 m-2 ${activeTab === 'Weddings' ? 'border-b-2 border-black' : ''}`}>Weddings</Link>
+          <Link to='/about-us' className={`px-1 py-1 m-2 ${activeTab === 'About' ? 'border-b-2 border-black' : ''}`}>About Us</Link>
+          <Link to='/contact-us' className={`px-1 py-1 m-2 ${activeTab === 'Contact' ? 'border-b-2 border-black' : ''}`}>Contact Us</Link>
         </div>
         <div className='flex'>
           {auth ? (

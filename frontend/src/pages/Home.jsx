@@ -1,7 +1,10 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import './Home.css'
 
-const Home = () => {
+const Home = ( { setActiveTab }) => {
+  useEffect(() => {
+    setActiveTab('Home');
+  }, []);
   const HeroSection = () => {
     return (
       <div className="banner grid place-content-evenly">

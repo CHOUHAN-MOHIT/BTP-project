@@ -1,6 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
-const ContactUs = () => {
+const ContactUs = ({ setActiveTab }) => {
+  useEffect(() => {
+    setActiveTab('Contact');
+  }, []);
   return (
     <div>ContactUs</div>
   )
