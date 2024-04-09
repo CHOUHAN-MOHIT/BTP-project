@@ -99,10 +99,11 @@ const WeddingDetail = () => {
         )}
       </div>
       <div className="space-y-8 basis-1/4">
-        <h1 className="text-3xl font-bold">Join Wedding</h1>
-        <p className="text-lg">To join this wedding and celebrate with us, please proceed to the payment section.</p>
-        {/* Add payment button or link here */}
-      </div>
+        <h1 className="text-3xl font-bold">Join Our Celebration of Love</h1>
+        <p className="text-lg">We are honored to invite you to join us in our joyous wedding celebrations. As a token of love and blessings, you may choose to contribute shagun to the bride and groom.</p>
+        <button className='bg-white px-4 py-2 rounded border border-black'>Join Now</button>
+    </div>
+
     </div>
   );
 };

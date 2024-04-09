@@ -23,21 +23,21 @@ const Home = ( { setActiveTab }) => {
           <p className="text-lg text-gray-600 mb-8 text-center">We make it easy for foreign guests to discover and attend traditional Indian weddings, filled with rituals, joy, and cultural richness.</p>
           
           {/* Service Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex justify-center">
             {/* Service Card 1: Browse Weddings */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-neutralAccent rounded-lg shadow-md p-6 mx-2 w-96">
               <h3 className="text-xl font-semibold mb-4">Browse and Select Weddings</h3>
               <p className="text-gray-600">Explore a curated list of Indian weddings and choose one that aligns with your interests and preferences.</p>
             </div>
             
             {/* Service Card 2: Easy Booking */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-neutralAccent rounded-lg shadow-md p-6 mx-2 w-96">
               <h3 className="text-xl font-semibold mb-4">Easy Booking Process</h3>
               <p className="text-gray-600">We facilitate a hassle-free booking process to ensure you secure your spot at the chosen wedding with ease.</p>
             </div>
             
             {/* Service Card 3: Assistance and Support */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-neutralAccent rounded-lg shadow-md p-6 mx-2 w-96">
               <h3 className="text-xl font-semibold mb-4">Assistance and Support</h3>
               <p className="text-gray-600">Our dedicated team is available to assist you throughout your journey, providing guidance and support to make your experience memorable.</p>
             </div>
@@ -53,11 +53,11 @@ const Home = ( { setActiveTab }) => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4 text-center">Testimonials</h2>
           {/* Testimonial Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex justify-center">
             {/* Testimonial Card Example */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 mx-2 w-96">
               <p className="text-gray-600">"I had an amazing experience attending an Indian wedding through Indian Wedding Host. Everything was well-organized, and I got to experience the rich traditions and joyous celebrations."</p>
-              <h4 className="text-lg font-semibold mt-4">- John Doe</h4>
+              <h4 className="text-lg font-semibold mt-2 text-right">- John Doe</h4>
             </div>
             {/* Add more testimonial cards here */}
           </div>

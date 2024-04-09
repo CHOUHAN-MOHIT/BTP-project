@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { UserDetails } from '../Context/UserContext';
 import Logo from '../assets/logos/logo-placeholder-image.png';
-import AuthModal from './AuthModal';
+import PopupModal from '../Modals/PopupModal';
 
 const Navbar = ({activeTab}) => {
   const { auth, setAuth } = UserDetails();
@@ -29,6 +29,7 @@ const Navbar = ({activeTab}) => {
   const openModal = (type) => {
     setModalType(type);
     setShowModal(true);
+    console.log(modalType);
   };
 
   const closeModal = () => {
@@ -52,7 +53,7 @@ const Navbar = ({activeTab}) => {
         <div className='flex'>
           {auth ? (
             <>
-              <Link className='btn backdrop-blur-sm bg-white/30' to='/register-wedding'>Be A Host</Link>
+              <button className='btn backdrop-blur-sm bg-white/30' onClick={() => openModal('registerWedding')}>Be A Host</button>
               <button className='btn backdrop-blur-sm bg-white/30' onClick={handleLogout}>
                 Logout
               </button>
@@ -69,7 +70,7 @@ const Navbar = ({activeTab}) => {
           )}
         </div>
       </nav>
-      {showModal && <AuthModal type={modalType} closeModal={closeModal} />}
+      {showModal && <PopupModal type={modalType} closeModal={closeModal} />}
     </>
   );
 };

@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css';
 import { BrowserRouter , Routes , Route} from 'react-router-dom'
 import { UserProvider } from './Context/UserContext';
-import WeddingRegister from './pages/WeddingRegister';
 import WeddingList from './pages/WeddingList';
 import Navbar from './components/Navbar';
 import WeddingDetail from './pages/WeddingDetail';
@@ -12,23 +11,22 @@ import AboutUs from './pages/AboutUs';
 import Footer from './components/Footer';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('');
 
   return (
-    
-      <BrowserRouter>
+    <BrowserRouter>
       <UserProvider>
-      <Navbar/>
+        <Navbar activeTab={activeTab} />
         <Routes>
-          <Route path='/' Component={Home}></Route>
-          <Route path='/about-us' Component={AboutUs}></Route>
-          <Route path='/contact-us' Component={ContactUs}></Route>
-          <Route path='/register-wedding' Component={WeddingRegister}></Route>
-          <Route path='/weddings' Component={WeddingList}></Route>
-          <Route path='/wedding/:id' Component={WeddingDetail}></Route>
+          <Route path='/' element={<Home setActiveTab={setActiveTab} />} />
+          <Route path='/about-us' element={<AboutUs setActiveTab={setActiveTab} />} />
+          <Route path='/contact-us' element={<ContactUs setActiveTab={setActiveTab} />} />
+          <Route path='/weddings' element={<WeddingList setActiveTab={setActiveTab} />} />
+          <Route path='/wedding/:id' element={<WeddingDetail />} />
         </Routes>
-      <Footer/>
-        </UserProvider>
-      </BrowserRouter>
+        <Footer />
+      </UserProvider>
+    </BrowserRouter>
   );
 }
 
