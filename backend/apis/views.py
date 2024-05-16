@@ -44,16 +44,6 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self , request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed("UnAuthenticated")
-        
-        try:
-            payload = jwt.decode(token , 'secret' , algorithms='HS256')
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Invailid Token")
-
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
 
@@ -85,16 +75,6 @@ class WeddingListCreateView(APIView):
 
     def post(self, request):
         """ Create a new wedding """
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed("UnAuthenticated")
-        
-        try:
-            payload = jwt.decode(token , 'secret' , algorithms='HS256')
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Invailid Token")
-
         serializer = WeddingFullSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
