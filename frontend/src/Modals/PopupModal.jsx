@@ -5,7 +5,7 @@ import WeddingRegister from '../components/WeddingRegister';
 
 const PopupModal = ({ type, closeModal }) => {
   return (
-    <div className="fixed flex justify-center items-center w-screen h-screen bg-[#00000080]">
+    <div className="fixed flex justify-center items-center w-screen h-screen bg-[#00000080] z-50">
         {type === 'register' && <Register closeModal={closeModal}/>}
         {type === 'login' && <Login closeModal={closeModal}/>}
         {type === 'registerWedding' && <WeddingRegister closeModal={closeModal}/>}
