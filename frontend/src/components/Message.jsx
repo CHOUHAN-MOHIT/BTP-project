@@ -12,7 +12,7 @@ const Message = ({ message, onClose , type="info" }) => {
       }, [onClose]);
     return (
       <div className="py-2 px-3 shadow-md mb-1 flex justify-between items-center bg-sky-300 rounded">
-        <span className='px-2'>{message}</span>
+        <div className='px-2'>{message}</div>
         <button onClick={onClose} className="opacity-50 hover:opacity-100 rounded-full p-1 bg-gray-300 focus:outline-none">
           <img src={closeIcon} alt="Close" className="w-4 h-4" />
         </button>

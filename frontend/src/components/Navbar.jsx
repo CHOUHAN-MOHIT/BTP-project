@@ -47,7 +47,7 @@ const Navbar = ({ activeTab }) => {
 
   return (
     <>
-    <div className="absolute w-full top-0">
+    <div className="absolute w-full top-0 z-50">
       <nav className="flex justify-around bg-transparent p-2">
         <div className="flex">
           <img src={Logo} className="w-12 h-12" />
@@ -121,7 +121,7 @@ const Navbar = ({ activeTab }) => {
           )}
         </div>
       </nav>
-      <div className="flex justify-center items-center max-w-max">
+      <div className="flex justify-center items-center">
       {messages.map((message, index) => (
         <Message key={index} message={message} onClose={handleClose} />
       ))}
