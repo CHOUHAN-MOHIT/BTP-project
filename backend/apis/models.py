@@ -45,34 +45,46 @@ class User(AbstractUser):
 
 
 class Wedding(models.Model):
-  # Bride and Groom Details
-  bride_name = models.CharField(max_length=20)
-  bride_email = models.EmailField()
-  bride_phone = models.CharField(max_length=20)
-  groom_phone = models.CharField(max_length=20)
-  groom_email = models.EmailField()
-  groom_name = models.CharField(max_length=20)
+    # Bride and Groom Details
+    bride_name = models.CharField(max_length=20)
+    bride_email = models.EmailField()
+    bride_phone = models.CharField(max_length=20)
+    groom_phone = models.CharField(max_length=20)
+    groom_email = models.EmailField()
+    groom_name = models.CharField(max_length=20)
 
-  # Demographics
-  address = models.CharField(max_length=255)
-  city = models.CharField(max_length=50)
-  state = models.CharField(max_length=50)
+    # Demographics
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
 
-  # Dates
-  registration_date = models.DateField(auto_now_add=True)  # Set automatically on creation
-  wedding_date = models.DateField()
+    # Dates
+    registration_date = models.DateField(auto_now_add=True)  # Set automatically on creation
+    wedding_date = models.DateField()
 
-  # Media
-  invitation_card = models.ImageField(upload_to='weddings/', blank=True)
+    # Media
+    invitation_card = models.ImageField(upload_to='weddings/', blank=True)
 
-  # Status
-  is_verified = models.BooleanField(default=False)
+    # Status
+    is_verified = models.BooleanField(default=False)
 
-  # Event Details
-  events = models.TextField(blank=True, null=True)  # Store event details as JSON string
+    # Event Details
+    events = models.TextField(blank=True, null=True)  # Store event details as JSON string
 
-  def save(self, *args, **kwargs):
-    # Preprocess event details before saving (optional)
-    if self.events:
-      self.events = json.dumps(self.events)  # Convert to JSON string for storage
-    super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        # Preprocess event details before saving (optional)
+        if self.events:
+            self.events = json.dumps(self.events)  # Convert to JSON string for storage
+        super().save(*args, **kwargs)
+
+    def get_wedding_name(self):
+        return f"{self.bride_name} & {self.groom_name}'s Wedding"
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    wedding = models.ForeignKey(Wedding, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    razorpay_order_id = models.CharField(max_length=255)
+    status = models.CharField(max_length=50)

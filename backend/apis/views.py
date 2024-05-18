@@ -2,10 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
-from .serializers import UserSerializer  , WeddingFullSerializer , WeddingShortSerializer
+from .serializers import UserSerializer  , WeddingFullSerializer , WeddingShortSerializer , PaymentSerializer
 from .models import User , Wedding
 import jwt , datetime , json
-from django.shortcuts import get_object_or_404
+import razorpay
+from django.conf import settings
+from django.views import View
+from .models import Wedding, Payment
+from django.shortcuts import get_object_or_404 , render, redirect
 
 # Create your views here.
 class RegisterView(APIView):
@@ -33,7 +37,7 @@ class LoginView(APIView):
             'iat': datetime.datetime.utcnow()
         }
 
-        token = jwt.encode(payload , 'secret' , algorithm='HS256')
+        token = jwt.encode(payload , settings.SECRET_KEY, algorithm='HS256')
 
         response = Response()
         response.set_cookie(key='jwt' , value=token, httponly=True)
@@ -81,3 +85,79 @@ class WeddingListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+import jwt
+from rest_framework.exceptions import AuthenticationFailed
+from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from .models import User
+
+class CreateOrderView(APIView):
+    @method_decorator(csrf_exempt)
+    def post(self, request, *args, **kwargs):
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Invalid token")
+
+        try:
+            user = User.objects.get(id=payload['id'])
+        except User.DoesNotExist:
+            raise AuthenticationFailed("User not found")
+
+        wedding_id = request.data.get('wedding_id')
+        amount = request.data.get('amount')
+        
+        try:
+            wedding = Wedding.objects.get(id=wedding_id)
+        except Wedding.DoesNotExist:
+            return Response({'error': 'Wedding not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Create a Razorpay order
+        razorpay_order = razorpay_client.order.create({
+            'amount': int(amount) * 100,  # Razorpay amount is in paisa
+            'currency': 'INR',
+            'payment_capture': '1'  # Auto-capture payment
+        })
+        
+        # Create Payment record
+        payment = Payment.objects.create(
+            user=user,
+            wedding=wedding,
+            amount=amount,
+            razorpay_order_id=razorpay_order['id'],
+            status='pending',
+        )
+
+        return Response({
+            'order_id': razorpay_order['id'],
+            'amount': razorpay_order['amount'],
+            'currency': razorpay_order['currency'],
+            'key': settings.RAZORPAY_KEY_ID,
+            'name': 'Wedding Payment',
+            'description': f'Payment for {wedding.get_wedding_name()}',
+            'notes': {
+                'wedding_id': wedding_id
+            }
+        })
+
+
+class PaymentSuccessView(APIView):
+    def post(self, request, *args, **kwargs):
+        payment_id = request.data.get('razorpay_payment_id')
+        order_id = request.data.get('razorpay_order_id')
+        signature = request.data.get('razorpay_signature')
+
+        try:
+            payment = Payment.objects.get(razorpay_order_id=order_id)
+            payment.status = 'succeeded'
+            payment.save()
+            return Response({'status': 'Payment successful'})
+        except Payment.DoesNotExist:
+            return Response({'status': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Wedding , User
+from .models import Wedding , User , Payment
 
 class WeddingFullSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +24,8 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'

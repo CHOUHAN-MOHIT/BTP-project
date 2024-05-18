@@ -141,3 +141,7 @@ CORS_ALLOW_CREDENTIALS = True
 # medial pahts
 MEDIA_ROOT = 'media'  # Adjust path as needed
 MEDIA_URL = 'media/'
+
+#razorpay
+RAZORPAY_KEY_ID = 'rzp_test_nSLNjdUSMtCSvQ'
+RAZORPAY_KEY_SECRET = 'vIirfPeD4YHGT6ytgwsKTSxn'

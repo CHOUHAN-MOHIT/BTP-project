@@ -8,4 +8,6 @@ urlpatterns = [
     path('logout' , views.LogoutView.as_view() , name="logout" ),
     path('weddings/', views.WeddingListCreateView.as_view()),
     path('weddings/<int:wedding_id>/', views.WeddingListCreateView.as_view(), name='wedding-detail'),
+    path('create_order/', views.CreateOrderView.as_view(), name='create_order'),
+    path('payment_success/', views.PaymentSuccessView.as_view(), name='payment_success'),
 ]
