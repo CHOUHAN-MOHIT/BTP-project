@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './WeddingRegister.css';
 import closeIcon from '../assets/logos/icons8-close-48.png'
+import { useGlobalMessages } from '../Context/GlobalMessagesContext';
 
 const WeddingRegister = ( { closeModal } ) => {
     // Data variables
@@ -25,6 +26,7 @@ const WeddingRegister = ( { closeModal } ) => {
         'Events',
         'Upload Invitation Card',
     ];
+    const { addMessage } = useGlobalMessages();
     // Functions
     const handleFormNav = (step) => {
         if (formStep + step >= 0 && formStep + step <= 3) {
@@ -121,7 +123,7 @@ const WeddingRegister = ( { closeModal } ) => {
     
             if (response.ok) {
                 setFormStep(0);
-                console.log('Wedding registered successfully');
+                addMessage('Wedding registered successfully');
                 // closing the Model
                 closeModal();
             } else {

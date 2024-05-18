@@ -26,8 +26,7 @@ const WeddingList = ({ setActiveTab })  => {
     setActiveTab('Weddings');
   }, []);
   return (
-    <div className='text-center pt-16' >
-      <h1>Wedding List</h1>
+    <div className='text-center pt-32' >
       {weddings.length > 0 ? (
         <div className='grid grid-cols-4 mx-32 gap-4'>
           {weddings.map((wedding) => (

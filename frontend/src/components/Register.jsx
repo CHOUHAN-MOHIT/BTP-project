@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import closeIcon from '../assets/logos/icons8-close-48.png';
+import { useGlobalMessages } from '../Context/GlobalMessagesContext';
 
 const Register = ({ closeModal }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const Register = ({ closeModal }) => {
   });
   const [rePassword, setRePassword] = useState('');
   const [rePasswordError, setRePasswordError] = useState('');
+  const { addMessage } = useGlobalMessages();
 
   useEffect(() => {
     isValid();
@@ -73,13 +75,14 @@ const Register = ({ closeModal }) => {
 
       const content = await response.json();
       closeModal();
+      addMessage('Registered Successfully');
     } catch (error) {
       console.error('Error registering user:', error.message);
     }
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md w-96 mx-auto mt-20 p-6">
+    <div className="bg-white rounded-lg overflow-hidden shadow-md w-96 mx-auto p-6">
   <div className="flex justify-end">
         <button onClick={closeModal} className="opacity-50 hover:opacity-100 rounded-full p-2 bg-gray-300 focus:outline-none">
           <img src={closeIcon} alt="Close" className="w-6 h-6" />

@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import ContactUs from './pages/ContactUs';
 import AboutUs from './pages/AboutUs';
 import Footer from './components/Footer';
+import { GlobalMessagesProvider } from './Context/GlobalMessagesContext';
 
 function App() {
   const [activeTab, setActiveTab] = useState('');
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserProvider>
+      <GlobalMessagesProvider>
         <Navbar activeTab={activeTab} />
         <Routes>
           <Route path='/' element={<Home setActiveTab={setActiveTab} />} />
@@ -25,6 +27,7 @@ function App() {
           <Route path='/wedding/:id' element={<WeddingDetail />} />
         </Routes>
         <Footer />
+        </GlobalMessagesProvider>
       </UserProvider>
     </BrowserRouter>
   );
