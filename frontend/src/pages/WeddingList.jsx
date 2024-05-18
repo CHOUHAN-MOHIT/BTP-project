@@ -1,12 +1,12 @@
 import React , {useState , useEffect} from 'react'
 import Weddingcard from '../components/WeddingCard';
 import './WeddingList.css'
+import Pagination from '../components/Pagination';
 
 const WeddingList = ({ setActiveTab })  => {
-  useEffect(() => {
-    
-  }, []);
   const [weddings, setWeddings] = useState([]);
+  const [currentPage , setCurrentPage] = useState(1);
+  const [weddingsPerPage , setWeddingsPerPage] = useState(8);
 
   useEffect(() => {
     const fetchWeddings = async () => {
@@ -25,11 +25,19 @@ const WeddingList = ({ setActiveTab })  => {
     fetchWeddings();
     setActiveTab('Weddings');
   }, []);
+  const handlePageChange =  (pageNumber) =>{ setCurrentPage(pageNumber);};
+
+  //get current weddings
+  const indexOfLastWedding = currentPage * weddingsPerPage;
+  const indexOfFirstWedding = indexOfLastWedding -  weddingsPerPage;
+  const currentWeddings = weddings.slice(indexOfFirstWedding , indexOfLastWedding);
+
   return (
+    <>
     <div className='text-center pt-32' >
       {weddings.length > 0 ? (
         <div className='grid grid-cols-4 mx-32 gap-4'>
-          {weddings.map((wedding) => (
+          {currentWeddings.map((wedding) => (
             <Weddingcard key={wedding.id} wedding={wedding}/>
           ))}
         </div>
@@ -37,6 +45,13 @@ const WeddingList = ({ setActiveTab })  => {
         <p>No weddings found.</p>
       )}
     </div>
+    <Pagination
+        weddingsPerPage={weddingsPerPage}
+        totalWeddings={weddings.length}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+    </>
   )
 }
 
