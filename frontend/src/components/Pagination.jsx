@@ -9,7 +9,7 @@ const Pagination = ({ weddingsPerPage, totalWeddings, currentPage, onPageChange 
 
   return (
     <nav
-      className="isolate flex -space-x-px rounded-md shadow-sm justify-center p-4"
+      className="isolate flex -space-x-px rounded-md shadow-sm justify-center p-4 bg-neutralAccent"
       aria-label="Pagination"
     >
       <button
@@ -39,8 +39,8 @@ const Pagination = ({ weddingsPerPage, totalWeddings, currentPage, onPageChange 
           aria-current={currentPage === number ? "page" : undefined}
           className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
             currentPage === number
-              ? "bg-shade"
-              : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              ? "bg-shade "
+              : "text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300"
           } focus:z-20 focus:outline-offset-0`}
         >
           {number}

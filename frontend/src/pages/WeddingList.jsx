@@ -34,7 +34,7 @@ const WeddingList = ({ setActiveTab })  => {
 
   return (
     <>
-    <div className='text-center pt-32' >
+    <div className='text-center pt-32 bg-gradient-to-b from-neutralAccent via-mutedAccent to-neutralAccent' >
       {weddings.length > 0 ? (
         <div className='grid grid-cols-4 mx-32 gap-4'>
           {currentWeddings.map((wedding) => (
