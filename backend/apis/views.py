@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
-from .serializers import UserSerializer  , WeddingFullSerializer , WeddingShortSerializer , PaymentSerializer
+from .serializers import UserSerializer  , WeddingFullSerializer , WeddingShortSerializer , PaymentSerializer , PaymentSerializerForDashBoard
 from .models import User , Wedding
 import jwt , datetime , json
 import razorpay
@@ -87,15 +87,7 @@ class WeddingListCreateView(APIView):
 
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-import jwt
-from rest_framework.exceptions import AuthenticationFailed
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from .models import User
-
 class CreateOrderView(APIView):
-    @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
         token = request.COOKIES.get('jwt')
         if not token:
@@ -161,3 +153,25 @@ class PaymentSuccessView(APIView):
             return Response({'status': 'Payment successful'})
         except Payment.DoesNotExist:
             return Response({'status': 'Payment not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UserPaymentsView(APIView):
+    def get(self, request):
+        """ Get a list of payments made by the authenticated user """
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Invalid token")
+
+        try:
+            user = User.objects.get(id=payload['id'])
+        except User.DoesNotExist:
+            raise AuthenticationFailed("User not found")
+            
+        payments = Payment.objects.filter(user=user)
+        serializer = PaymentSerializerForDashBoard(payments, many=True)
+        return Response(serializer.data)

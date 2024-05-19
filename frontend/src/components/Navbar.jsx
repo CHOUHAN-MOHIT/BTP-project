@@ -6,6 +6,7 @@ import Logo from "../assets/logos/logo-placeholder-image.png";
 import PopupModal from "../Modals/PopupModal";
 import { useGlobalMessages } from "../Context/GlobalMessagesContext";
 import Message from "./Message";
+import UserProfileCircle from "./UserProfileCircle";
 
 const Navbar = ({ activeTab }) => {
   const { auth, setAuth } = UserDetails();
@@ -87,32 +88,33 @@ const Navbar = ({ activeTab }) => {
             Contact Us
           </Link>
         </div>
-        <div className="flex">
+        <div className="flex items-center">
           {auth ? (
             <>
               <button
-                className="btn backdrop-blur-sm bg-white/30"
+                className="btn backdrop-blur-sm bg-white/30 py-1 hover:bg-highlight"
                 onClick={() => openModal("registerWedding")}
               >
                 Be A Host
               </button>
               <button
-                className="btn backdrop-blur-sm bg-white/30"
+                className="btn backdrop-blur-sm bg-white/30 py-1 hover:bg-highlight"
                 onClick={handleLogout}
               >
                 Logout
               </button>
+              <UserProfileCircle username="John Doe" profilePic={null} />
             </>
           ) : (
             <>
               <button
-                className="btn backdrop-blur-sm bg-white/30"
+                className="btn backdrop-blur-sm bg-white/30 py-1 hover:bg-highlight"
                 onClick={() => openModal("register")}
               >
                 Register
               </button>
               <button
-                className="btn backdrop-blur-sm bg-white/30"
+                className="btn backdrop-blur-sm bg-white/30 py-1 hover:bg-highlight"
                 onClick={() => openModal("login")}
               >
                 Login
