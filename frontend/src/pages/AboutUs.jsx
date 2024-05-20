@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Carousel } from "react-responsive-carousel"; // Example carousel library
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Carousel styles
 
 const AboutUs = ({ setActiveTab }) => {
   useEffect(() => {
@@ -10,7 +12,21 @@ const AboutUs = ({ setActiveTab }) => {
       <section className="pb-8 text-black bg-mutedAccent">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-4 text-center">Our Story</h2>
-          <p className="text-lg text-center">
+          <Carousel showThumbs={false} autoPlay infiniteLoop>
+            <div>
+              <img src="https://source.unsplash.com/random/500x300" alt="Our Journey" />
+              <p className="legend">Our humble beginnings</p>
+            </div>
+            <div>
+              <img src="https://source.unsplash.com/random/300x300" alt="Growth" />
+              <p className="legend">Growing our team</p>
+            </div>
+            <div>
+              <img src="https://source.unsplash.com/random/300x300" alt="Celebration" />
+              <p className="legend">Celebrating with couples</p>
+            </div>
+          </Carousel>
+          <p className="text-lg text-justify mt-4">
             Welcome to our wedding celebration platform! Our journey began with a simple idea: to make wedding planning and celebrations more enjoyable and less stressful. Over the years, we have helped countless couples create unforgettable moments by providing a comprehensive platform that caters to all their wedding needs. From finding the perfect venue to managing guest lists and everything in between, our mission is to bring your dream wedding to life with ease and elegance.
           </p>
         </div>
@@ -21,7 +37,10 @@ const AboutUs = ({ setActiveTab }) => {
       <section className="pb-8 text-black bg-neutralAccent">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-4 text-center">Our Mission</h2>
-          <p className="text-lg text-center">
+          <div className="flex justify-center">
+            <img src="https://source.unsplash.com/random/300x300" alt="Our Mission" className="w-full md:w-1/2 rounded-lg" />
+          </div>
+          <p className="text-lg text-justify mt-4">
             Our mission is to create a seamless and enjoyable wedding planning experience for every couple. We understand that every wedding is unique, and we strive to offer personalized solutions that reflect your individual style and preferences. By leveraging the latest technology and our extensive network of wedding professionals, we are committed to making your special day as magical and memorable as possible.
           </p>
         </div>
@@ -32,9 +51,6 @@ const AboutUs = ({ setActiveTab }) => {
       <section className="pb-8 text-black bg-mutedAccent">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-4 text-center">Meet the Team</h2>
-          <p className="text-lg text-center">
-            Our team is comprised of passionate wedding enthusiasts, event planners, and tech experts dedicated to making your wedding journey smooth and enjoyable. We bring a wealth of experience and creativity to the table, ensuring that every detail is meticulously planned and executed. Get to know the faces behind our platform:
-          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="text-center">
               <img
@@ -44,6 +60,7 @@ const AboutUs = ({ setActiveTab }) => {
               />
               <h3 className="text-xl font-semibold text-shade">Jane Doe</h3>
               <p className="text-gray-600">Founder & CEO</p>
+              <p className="text-gray-600 mt-2">Jane has over 20 years of experience in the wedding industry...</p>
             </div>
             <div className="text-center">
               <img
@@ -53,6 +70,7 @@ const AboutUs = ({ setActiveTab }) => {
               />
               <h3 className="text-xl font-semibold text-shade">John Smith</h3>
               <p className="text-gray-600">Chief Technology Officer</p>
+              <p className="text-gray-600 mt-2">John is a tech enthusiast with a passion for creating innovative solutions...</p>
             </div>
           </div>
         </div>
