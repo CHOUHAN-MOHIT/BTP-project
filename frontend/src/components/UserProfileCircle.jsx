@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserProfileCircle = ({ username, profilePic }) => {
   return (
-    <div className="relative">
+    <Link to="/dashboard" className="relative">
       <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
         {profilePic ? (
           <img src={profilePic} alt={username} className="w-full h-auto" />
@@ -12,7 +13,7 @@ const UserProfileCircle = ({ username, profilePic }) => {
           </span>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
